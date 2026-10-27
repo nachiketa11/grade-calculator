@@ -3,6 +3,8 @@ Student Grade Calculator
 Calculates total marks, percentage, and grade for multiple subjects.
 """
 
+import math
+
 GRADE_SCALE = [
     (90, "O",  "Outstanding"),
     (80, "A+", "Excellent"),
@@ -32,6 +34,9 @@ def get_marks(subject: str, max_marks: float) -> float:
         except ValueError:
             print("  ✗ Invalid input. Please enter a number.")
             continue
+        if not math.isfinite(marks):
+            print("  ✗ Marks must be a finite number.")
+            continue
         if marks < 0:
             print("  ✗ Marks cannot be negative.")
             continue
@@ -46,6 +51,9 @@ def get_positive_float(prompt: str) -> float:
         raw = input(prompt).strip()
         try:
             value = float(raw)
+            if not math.isfinite(value):
+                print("  ✗ Value must be a finite number.")
+                continue
             if value <= 0:
                 print("  ✗ Value must be greater than 0.")
                 continue
@@ -60,7 +68,7 @@ def get_positive_int(prompt: str) -> int:
         try:
             value = int(raw)
             if value <= 0:
-                print("  ✗ Must be at least 1.")
+                print("  ✗ Must be at least 1. Please enter a whole number.")
                 continue
             return value
         except ValueError:
@@ -109,7 +117,7 @@ def main() -> None:
     print()
 
     num_subjects = get_positive_int("Enter number of subjects: ")
-    max_marks    = get_positive_float("Enter max marks per subject: ")
+    max_marks = get_positive_float("Enter max marks per subject: ")
 
     print()
     subjects = []
